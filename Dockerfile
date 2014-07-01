@@ -1,15 +1,18 @@
-# This is a Dockerfile to create a Makefly environment on Ubuntu 12.04
+# This is a Dockerfile to create a Makefly environment on Debian Wheezy (version 7)
 #
-# VERSION 0.0
+# VERSION 0.1
 
-# use Ubuntu 12.04 image provided by docker.io
-FROM ubuntu:12.04
+# use Debian wheezy (version 7) image provided by docker.io
+FROM debian:wheezy
 
 MAINTAINER Olivier Dossmann, olivier+dockerfile@dossmann.net
 
 # Get noninteractive frontend for Debian to avoid some problems:
 #    debconf: unable to initialize frontend: Dialog
 ENV DEBIAN_FRONTEND noninteractive
+
+# Update package list before installing ones
+RUN apt-get update
 
 # Install wget and dependencies
 RUN apt-get install -y wget unzip lua5.1 liblua5.1-filesystem0 liblua5.1-markdown0
