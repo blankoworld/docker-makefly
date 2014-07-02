@@ -15,3 +15,7 @@ Do this:
     ./makefly
 
 You will see the list of available commands.
+
+# See result
+
+To see the result of what Makefly do, you can consult your local webbrowser to the given address: [http://localhost:8080/](http://localhost:8080/ "See Makefly container result").
