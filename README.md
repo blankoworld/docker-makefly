@@ -3,7 +3,7 @@
 Just do this in this directory:
 
     docker build -t makefly:latest .
-    docker run -t -i --name makefly makefly:latest /bin/bash
+    docker run -p 8080:80 -t -i --name makefly makefly:latest /bin/bash
 
 And you will enter in the docker image. Makefly is located in /opt/makefly-master.
 

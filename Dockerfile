@@ -27,12 +27,33 @@ ENV LC_ALL C.UTF-8
 ENV LANG en_US.UTF-8
 ENV LANGUAGE en_US.UTF-8
 
-# Install wget and dependencies
+# Install wget and makefly dependencies
 RUN apt-get install -y wget unzip lua5.1 liblua5.1-filesystem0 liblua5.1-markdown0
 
 # Download and install FAHClient
 RUN wget -O makefly_latest.zip "https://github.com/blankoworld/makefly/archive/master.zip" --no-check-certificate \
-  && unzip makefly_latest.zip -d /opt && cd /opt/makefly-master && cp makefly.rc.example makefly.rc
+  && unzip makefly_latest.zip -d /opt && cd /opt/makefly-master
+
+# Install useful tools.
+#+ nano (to edit files)
+RUN apt-get install -y nano
+
+# Install nginx so that we can see result on the web
+RUN apt-get install -y nginx-light
+
+# Run nginx each time we launch bash
+RUN echo "/usr/sbin/nginx > /dev/null 2>&1 &" >> /etc/bash.bashrc
+
+# Copy nginx configuration file
+ADD nginx.conf /etc/nginx/sites-enabled/
+# Use a specific makefly.rc configuration so that it works with Nginx
+ADD makefly.rc /opt/makefly-master/makefly.rc
+
+# Compile first version of Makefly
+RUN cd /opt/makefly-master && ./makefly refresh
+
+# Open some ports: 80(HTTP)
+EXPOSE 80
 
 # Delete last makefly zipfile
 RUN rm -f /makefly_latest.zip
